@@ -1,10 +1,10 @@
 import React,  { useState } from "react";
 
-function Filter({ onCategoryChange, onSearchChange }) {
+function Filter({ onCategoryChange, onSearchChange, search }) {
 
   return (
     <div className="Filter">
-      <input onChange={onSearchChange} type="text" name="search" placeholder="Search..." />
+      <input onChange={onSearchChange} type="text" name="search" value={search} placeholder="Search..." />
       <select name="filter" onChange={onCategoryChange}>
         <option value="All">Filter by category</option>
         <option value="Produce">Produce</option>

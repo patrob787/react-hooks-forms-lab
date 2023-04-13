@@ -8,9 +8,8 @@ function ShoppingList({ items }) {
   const [searchField, setSearchField] = useState("");
   const [itemsList, setItemsList] = useState(items);
 
-
-  function handleCategoryChange(event) {
-    setSelectedCategory(event.target.value);
+  function handleCategoryChange(e) {
+    setSelectedCategory(e.target.value);
   }
 
   function onSearchChange(e) {
@@ -39,8 +38,9 @@ function ShoppingList({ items }) {
   
   return (
     <div className="ShoppingList">
-      <ItemForm onSubmitForm={addItemToList} />
+      <ItemForm onItemFormSubmit={addItemToList} />
       <Filter  
+        search={searchField}
         onSearchChange={onSearchChange}
         onCategoryChange={handleCategoryChange} />
       <ul className="Items">
