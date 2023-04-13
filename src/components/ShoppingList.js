@@ -6,6 +6,8 @@ import Item from "./Item";
 function ShoppingList({ items }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchField, setSearchField] = useState("");
+  const [itemsList, setItemsList] = useState(items);
+
 
   function handleCategoryChange(event) {
     setSelectedCategory(event.target.value);
@@ -15,32 +17,34 @@ function ShoppingList({ items }) {
     setSearchField(e.target.value)
   }
 
-  function renderItems(itemArray) {
-    return itemArray.map((item) => (
-      <Item key={item.id} name={item.name} category={item.category} />
-    ))
-  }
-
-  const searchItems = items.filter((item) => {
+  function addItemToList(newItem) {
+    setItemsList([...itemsList, newItem])
+  };
+  
+  const itemsToDisplay = itemsList.filter((item) => { 
+    if (selectedCategory === "All") return true;
+    
+    return item.category === selectedCategory;
+  });
+  
+  const searchItems = itemsToDisplay.filter((item) => {
     if (item.name.toLowerCase().includes(searchField.toLowerCase())) {
       return item
     }
   })
   
-  const itemsToDisplay = items.filter((item) => { 
-    if (selectedCategory === "All") return true;
-
-    return item.category === selectedCategory;
-  });
-
+  const renderItems = searchItems.map((item) => (
+      <Item key={item.id} name={item.name} category={item.category} />
+    ))
+  
   return (
     <div className="ShoppingList">
-      <ItemForm />
+      <ItemForm onSubmitForm={addItemToList} />
       <Filter  
         onSearchChange={onSearchChange}
         onCategoryChange={handleCategoryChange} />
       <ul className="Items">
-        {searchField ? renderItems(searchItems) : renderItems(itemsToDisplay)}
+        {renderItems}
       </ul>
     </div>
   );
